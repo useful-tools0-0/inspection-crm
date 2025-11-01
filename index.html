@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspection CRM - Service Management</title>
+    <style>
+:root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+.header {
+  margin-bottom: var(--space-32);
+}
+
+.header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
+}
+
+.header p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-24);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tab {
+  padding: var(--space-12) var(--space-20);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.tab:hover {
+  color: var(--color-text);
+  background: var(--color-secondary);
+}
+
+.tab.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  border: none;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn--secondary {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn--secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btn--sm {
+  padding: var(--space-6) var(--space-12);
+  font-size: var(--font-size-sm);
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-24);
+  margin-bottom: var(--space-24);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-16);
+  margin-bottom: var(--space-16);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.form-label {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.form-control {
+  padding: var(--space-8) var(--space-12);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.form-control:focus {
+  outline: var(--focus-outline);
+  border-color: var(--color-primary);
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: var(--select-caret-light);
+  background-repeat: no-repeat;
+  background-position: right var(--space-12) center;
+  background-size: 16px;
+  padding-right: var(--space-32);
+}
+
+@media (prefers-color-scheme: dark) {
+  select.form-control {
+    background-image: var(--select-caret-dark);
+  }
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 80px;
+  font-family: var(--font-family-base);
+}
+
+.checkbox-group {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+}
+
+thead {
+  background: var(--color-secondary);
+}
+
+th {
+  padding: var(--space-12) var(--space-16);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+td {
+  padding: var(--space-12) var(--space-16);
+  border-bottom: 1px solid var(--color-card-border-inner);
+  font-size: var(--font-size-sm);
+}
+
+tr:hover {
+  background: var(--color-bg-1);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-xs);
+}
+
+.status--pending {
+  background-color: rgba(var(--color-warning-rgb), var(--status-bg-opacity));
+  color: var(--color-warning);
+  border: 1px solid rgba(var(--color-warning-rgb), var(--status-border-opacity));
+}
+
+.status--completed {
+  background-color: rgba(var(--color-success-rgb), var(--status-bg-opacity));
+  color: var(--color-success);
+  border: 1px solid rgba(var(--color-success-rgb), var(--status-border-opacity));
+}
+
+.status--sent {
+  background-color: rgba(var(--color-info-rgb), var(--status-bg-opacity));
+  color: var(--color-info);
+  border: 1px solid rgba(var(--color-info-rgb), var(--status-border-opacity));
+}
+
+.action-buttons {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-16);
+  margin-bottom: var(--space-24);
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-20);
+}
+
+.stat-card h3 {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-8);
+}
+
+.stat-card .stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.search-filter {
+  display: flex;
+  gap: var(--space-12);
+  margin-bottom: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.search-filter input {
+  flex: 1;
+  min-width: 250px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-32);
+  color: var(--color-text-secondary);
+}
+
+.empty-state p {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-16);
+}
+
+.alert {
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-16);
+  font-size: var(--font-size-sm);
+}
+
+.alert--success {
+  background: rgba(var(--color-success-rgb), 0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(var(--color-success-rgb), 0.3);
+}
+
+.alert--error {
+  background: rgba(var(--color-error-rgb), 0.1);
+  color: var(--color-error);
+  border: 1px solid rgba(var(--color-error-rgb), 0.3);
+}
+
+.btn-group {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-16);
+}
+
+.export-section {
+  margin-top: var(--space-24);
+  padding-top: var(--space-24);
+  border-top: 1px solid var(--color-border);
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Inspection CRM</h1>
+            <p>Customer Relationship Management for Electrical Inspections, Compressed Air &amp; Miscellaneous Services</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab" onclick="switchTab('customers')">Customers</button>
+            <button class="tab" onclick="switchTab('inspections')">Inspections</button>
+            <button class="tab" onclick="switchTab('proposals')">Proposals</button>
+            <button class="tab" onclick="switchTab('reports')">Reports</button>
+        </div>
+
+        <div id="dashboard" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Customers</h3>
+                    <div class="stat-value" id="totalCustomers">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Proposals</h3>
+                    <div class="stat-value" id="activeProposals">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed This Month</h3>
+                    <div class="stat-value" id="completedThisMonth">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Upcoming Inspections</h3>
+                    <div class="stat-value" id="upcomingInspections">0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: var(--space-16); font-size: var(--font-size-2xl);">Recent Activity</h2>
+                <div id="recentActivity"></div>
+            </div>
+        </div>
+
+        <div id="customers" class="tab-content">
+            <div class="card">
+                <div class="btn-group">
+                    <button class="btn btn--primary" onclick="showAddCustomerForm()">+ Add Customer</button>
+                </div>
+
+                <div id="addCustomerForm" style="display: none; margin-bottom: var(--space-24);">
+                    <h3 style="margin-bottom: var(--space-16); font-size: var(--font-size-xl);">Add New Customer</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Company Name *</label>
+                            <input type="text" class="form-control" id="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contact Person</label>
+                            <input type="text" class="form-control" id="contactPerson">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="customerEmail">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="customerPhone">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: var(--space-16);">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-control" id="customerAddress"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom: var(--space-16);">
+                        <label class="form-label">Service Types</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="serviceElectrical" value="electrical">
+                                Electrical Inspections
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="serviceLeakSurvey" value="leak_survey">
+                                Leak Surveys
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: var(--space-16);">
+                        <label class="form-label">Inspection Frequency</label>
+                        <select class="form-control" id="inspectionFrequency">
+                            <option value="">Select frequency</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="semi-annual">Semi-Annual</option>
+                            <option value="annual">Annual</option>
+                            <option value="as-needed">As Needed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" id="customerNotes"></textarea>
+                    </div>
+                    <div class="btn-group" style="margin-top: var(--space-16);">
+                        <button class="btn btn--primary" onclick="addCustomer()">Save Customer</button>
+                        <button class="btn btn--secondary" onclick="cancelAddCustomer()">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" class="form-control" id="customerSearch" placeholder="Search customers..." onkeyup="filterCustomers()">
+                    <select class="form-control" id="serviceFilter" onchange="filterCustomers()" style="max-width: 200px;">
+                        <option value="">All Services</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="compressed_air">Compressed Air</option>
+                        <option value="miscellaneous">Miscellaneous</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table id="customersTable">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Contact</th>
+                                <th>Services</th>
+                                <th>Frequency</th>
+                                <th>Last Inspection</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTableBody">
+                            <tr>
+                                <td colspan="6" class="empty-state">No customers yet. Add your first customer above.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="inspections" class="tab-content">
+            <div class="card">
+                <div class="btn-group">
+                    <button class="btn btn--primary" onclick="showAddInspectionForm()">+ Add Inspection</button>
+                </div>
+
+                <div id="addInspectionForm" style="display: none; margin-bottom: var(--space-24);">
+                    <h3 style="margin-bottom: var(--space-16); font-size: var(--font-size-xl);">Add New Inspection</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Customer *</label>
+                            <select class="form-control" id="inspectionCustomer" required>
+                                <option value="">Select customer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Service Type *</label>
+                            <select class="form-control" id="inspectionServiceType" required>
+                                <option value="">Select service</option>
+                                <option value="electrical">Electrical Inspection</option>
+                                <option value="compressed_air">Compressed Air</option>
+                                <option value="miscellaneous">Miscellaneous</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Scheduled Date *</label>
+                            <input type="date" class="form-control" id="inspectionDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Technician *</label>
+                            <select class="form-control" id="inspectionTechnician" required>
+                                <option value="">Select technician</option>
+                                <option value="John Smith">John Smith</option>
+                                <option value="Sarah Johnson">Sarah Johnson</option>
+                                <option value="Mike Davis">Mike Davis</option>
+                                <option value="Lisa Anderson">Lisa Anderson</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: var(--space-16);">
+                        <label class="form-label">Status</label>
+                        <select class="form-control" id="inspectionStatus">
+                            <option value="scheduled">Scheduled</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: var(--space-16);">
+                        <label class="form-label">Completion Date</label>
+                        <input type="date" class="form-control" id="inspectionCompletionDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" id="inspectionNotes"></textarea>
+                    </div>
+                    <div class="btn-group" style="margin-top: var(--space-16);">
+                        <button class="btn btn--primary" onclick="addInspection()">Save Inspection</button>
+                        <button class="btn btn--secondary" onclick="cancelAddInspection()">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" class="form-control" id="inspectionSearch" placeholder="Search inspections..." onkeyup="filterInspections()">
+                    <select class="form-control" id="inspectionStatusFilter" onchange="filterInspections()" style="max-width: 200px;">
+                        <option value="">All Status</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table id="inspectionsTable">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Service Type</th>
+                                <th>Scheduled Date</th>
+                                <th>Technician</th>
+                                <th>Status</th>
+                                <th>Completion Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inspectionsTableBody">
+                            <tr>
+                                <td colspan="7" class="empty-state">No inspections yet. Add your first inspection above.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="proposals" class="tab-content">
+            <div class="card">
+                <div class="btn-group">
+                    <button class="btn btn--primary" onclick="showAddProposalForm()">+ Add Proposal</button>
+                </div>
+
+                <div id="addProposalForm" style="display: none; margin-bottom: var(--space-24);">
+                    <h3 style="margin-bottom: var(--space-16); font-size: var(--font-size-xl);">Add New Proposal</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Customer *</label>
+                            <select class="form-control" id="proposalCustomer" required>
+                                <option value="">Select customer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Service Type *</label>
+                            <select class="form-control" id="proposalServiceType" required>
+                                <option value="">Select service</option>
+                                <option value="electrical">Electrical Inspection</option>
+                                <option value="compressed_air">Compressed Air</option>
+                                <option value="miscellaneous">Miscellaneous</option>
+                                <option value="multiple">Multiple Services</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date Sent *</label>
+                            <input type="date" class="form-control" id="proposalDateSent" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="proposalAmount" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: var(--space-16);">
+                        <label class="form-label">Status</label>
+                        <select class="form-control" id="proposalStatus">
+                            <option value="sent">Sent</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="proposalDescription"></textarea>
+                    </div>
+                    <div class="btn-group" style="margin-top: var(--space-16);">
+                        <button class="btn btn--primary" onclick="addProposal()">Save Proposal</button>
+                        <button class="btn btn--secondary" onclick="cancelAddProposal()">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" class="form-control" id="proposalSearch" placeholder="Search proposals..." onkeyup="filterProposals()">
+                    <select class="form-control" id="proposalStatusFilter" onchange="filterProposals()" style="max-width: 200px;">
+                        <option value="">All Status</option>
+                        <option value="sent">Sent</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table id="proposalsTable">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Service Type</th>
+                                <th>Date Sent</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="proposalsTableBody">
+                            <tr>
+                                <td colspan="6" class="empty-state">No proposals yet. Add your first proposal above.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="reports" class="tab-content">
+            <div class="card">
+                <h2 style="margin-bottom: var(--space-16); font-size: var(--font-size-2xl);">Reports &amp; Analytics</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Electrical Inspections</h3>
+                        <div class="stat-value" id="reportElectrical">0</div>
+                    </div>                <div class="stat-card">
+                    <h3>Compressed Air</h3>
+                    <div class="stat-value" id="reportCompressedAir">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Miscellaneous</h3>
+                    <div class="stat-value" id="reportMiscellaneous">0</div>
+                </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="stat-value" id="reportRevenue">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg. Time Between Inspections</h3>
+                        <div class="stat-value" id="reportAvgTime">-</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: var(--space-16); font-size: var(--font-size-xl);">Customer Service Breakdown</h3>
+                    <div id="customerServiceBreakdown"></div>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: var(--space-16); font-size: var(--font-size-xl);">Technician Performance</h3>
+                    <div id="technicianPerformance"></div>
+                </div>
+
+                <div class="export-section">
+                    <h3 style="margin-bottom: var(--space-16); font-size: var(--font-size-xl);">Export Data</h3>
+                    <div class="btn-group">
+                        <button class="btn btn--secondary" onclick="exportToCSV('customers')">Export Customers</button>
+                        <button class="btn btn--secondary" onclick="exportToCSV('inspections')">Export Inspections</button>
+                        <button class="btn btn--secondary" onclick="exportToCSV('proposals')">Export Proposals</button>
+                        <button class="btn btn--primary" onclick="exportAllData()">Export All Data</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: var(--space-24); padding-top: var(--space-24); border-top: 1px solid var(--color-border);">
+                    <h3 style="margin-bottom: var(--space-16); font-size: var(--font-size-xl);">Import Data</h3>
+                    <p style="margin-bottom: var(--space-16); color: var(--color-text-secondary);">
+                        Import a previously exported JSON backup file to restore your data.
+                    </p>
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleImport(event)">
+                    <button class="btn btn--secondary" onclick="document.getElementById('importFile').click()">Import Data</button>
+                    <div id="importStatus" style="margin-top: var(--space-16);"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage
+        let customers = [];
+        let inspections = [];
+        let proposals = [];
+
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            updateDashboard();
+            updateReports();
+            setDefaultDate();
+        });
+
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInputs = ['proposalDateSent'];
+            dateInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input && !input.value) {
+                    input.value = today;
+                }
+            });
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+
+            if (tabName === 'reports') {
+                updateReports();
+            }
+        }
+
+        // Customer Functions
+        function showAddCustomerForm() {
+            document.getElementById('addCustomerForm').style.display = 'block';
+        }
+
+        function cancelAddCustomer() {
+            document.getElementById('addCustomerForm').style.display = 'none';
+            clearCustomerForm();
+        }
+
+        function clearCustomerForm() {
+            document.getElementById('customerName').value = '';
+            document.getElementById('contactPerson').value = '';
+            document.getElementById('customerEmail').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('customerAddress').value = '';
+            document.getElementById('serviceElectrical').checked = false;
+            document.getElementById('serviceCompressedAir').checked = false;
+            document.getElementById('serviceMiscellaneous').checked = false;
+            document.getElementById('inspectionFrequency').value = '';
+            document.getElementById('customerNotes').value = '';
+        }
+
+        function addCustomer() {
+            const name = document.getElementById('customerName').value.trim();
+            if (!name) {
+                alert('Please enter a company name');
+                return;
+            }
+
+            const services = [];
+            if (document.getElementById('serviceElectrical').checked) services.push('electrical');
+            if (document.getElementById('serviceCompressedAir').checked) services.push('compressed_air');
+            if (document.getElementById('serviceMiscellaneous').checked) services.push('miscellaneous');
+
+            const customer = {
+                id: Date.now(),
+                name: name,
+                contactPerson: document.getElementById('contactPerson').value.trim(),
+                email: document.getElementById('customerEmail').value.trim(),
+                phone: document.getElementById('customerPhone').value.trim(),
+                address: document.getElementById('customerAddress').value.trim(),
+                services: services,
+                frequency: document.getElementById('inspectionFrequency').value,
+                notes: document.getElementById('customerNotes').value.trim(),
+                createdDate: new Date().toISOString()
+            };
+
+            customers.push(customer);
+            saveData();
+            renderCustomers();
+            updateCustomerDropdowns();
+            updateDashboard();
+            cancelAddCustomer();
+        }
+
+        function deleteCustomer(id) {
+            if (!confirm('Are you sure you want to delete this customer?')) return;
+            customers = customers.filter(c => c.id !== id);
+            saveData();
+            renderCustomers();
+            updateCustomerDropdowns();
+            updateDashboard();
+        }
+
+        function renderCustomers() {
+            const tbody = document.getElementById('customersTableBody');
+            if (customers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No customers yet. Add your first customer above.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = customers.map(customer => {
+                const lastInspection = getLastInspectionDate(customer.id);
+                const servicesDisplay = customer.services.map(s => {
+                    if (s === 'electrical') return 'Electrical';
+                    if (s === 'compressed_air') return 'Compressed Air';
+                    if (s === 'miscellaneous') return 'Miscellaneous';
+                    return s;
+                }).join(', ') || 'None';
+
+                return `
+                    <tr>
+                        <td><strong>${customer.name}</strong></td>
+                        <td>${customer.contactPerson || '-'}<br><small>${customer.email || ''}</small></td>
+                        <td>${servicesDisplay}</td>
+                        <td>${customer.frequency ? customer.frequency.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'As Needed'}</td>
+                        <td>${lastInspection || 'Never'}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn--sm btn--secondary" onclick="viewCustomerDetails(${customer.id})">View</button>
+                            <button class="btn btn--sm btn--secondary" onclick="deleteCustomer(${customer.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getLastInspectionDate(customerId) {
+            const customerInspections = inspections.filter(i => i.customerId === customerId && i.status === 'completed');
+            if (customerInspections.length === 0) return null;
+            
+            const sorted = customerInspections.sort((a, b) => new Date(b.completionDate) - new Date(a.completionDate));
+            return new Date(sorted[0].completionDate).toLocaleDateString();
+        }
+
+        function filterCustomers() {
+            const searchTerm = document.getElementById('customerSearch').value.toLowerCase();
+            const serviceFilter = document.getElementById('serviceFilter').value;
+            
+            const filtered = customers.filter(customer => {
+                const matchesSearch = customer.name.toLowerCase().includes(searchTerm) ||
+                                    (customer.contactPerson && customer.contactPerson.toLowerCase().includes(searchTerm));
+                const matchesService = !serviceFilter || customer.services.includes(serviceFilter);
+                return matchesSearch && matchesService;
+            });
+
+            const tbody = document.getElementById('customersTableBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No customers found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(customer => {
+                const lastInspection = getLastInspectionDate(customer.id);
+                const servicesDisplay = customer.services.map(s => 
+                    s === 'electrical' ? 'Electrical' : 'Leak Survey'
+                ).join(', ') || 'None';
+
+                return `
+                    <tr>
+                        <td><strong>${customer.name}</strong></td>
+                        <td>${customer.contactPerson || '-'}<br><small>${customer.email || ''}</small></td>
+                        <td>${servicesDisplay}</td>
+                        <td>${customer.frequency ? customer.frequency.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'As Needed'}</td>
+                        <td>${lastInspection || 'Never'}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn--sm btn--secondary" onclick="viewCustomerDetails(${customer.id})">View</button>
+                            <button class="btn btn--sm btn--secondary" onclick="deleteCustomer(${customer.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function viewCustomerDetails(id) {
+            const customer = customers.find(c => c.id === id);
+            if (!customer) return;
+
+            const customerInspections = inspections.filter(i => i.customerId === id);
+            const customerProposals = proposals.filter(p => p.customerId === id);
+
+            alert(`Customer Details:\n\nCompany: ${customer.name}\nContact: ${customer.contactPerson || 'N/A'}\nEmail: ${customer.email || 'N/A'}\nPhone: ${customer.phone || 'N/A'}\nServices: ${customer.services.join(', ') || 'None'}\nFrequency: ${customer.frequency || 'As Needed'}\n\nTotal Inspections: ${customerInspections.length}\nTotal Proposals: ${customerProposals.length}\n\nNotes: ${customer.notes || 'None'}`);
+        }
+
+        // Inspection Functions
+        function showAddInspectionForm() {
+            updateCustomerDropdowns();
+            document.getElementById('addInspectionForm').style.display = 'block';
+        }
+
+        function cancelAddInspection() {
+            document.getElementById('addInspectionForm').style.display = 'none';
+            clearInspectionForm();
+        }
+
+        function clearInspectionForm() {
+            document.getElementById('inspectionCustomer').value = '';
+            document.getElementById('inspectionServiceType').value = '';
+            document.getElementById('inspectionDate').value = '';
+            document.getElementById('inspectionTechnician').value = '';
+            document.getElementById('inspectionStatus').value = 'scheduled';
+            document.getElementById('inspectionCompletionDate').value = '';
+            document.getElementById('inspectionNotes').value = '';
+        }
+
+        function addInspection() {
+            const customerId = parseInt(document.getElementById('inspectionCustomer').value);
+            const serviceType = document.getElementById('inspectionServiceType').value;
+            const date = document.getElementById('inspectionDate').value;
+            const technician = document.getElementById('inspectionTechnician').value;
+
+            if (!customerId || !serviceType || !date || !technician) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const inspection = {
+                id: Date.now(),
+                customerId: customerId,
+                serviceType: serviceType,
+                scheduledDate: date,
+                technician: technician,
+                status: document.getElementById('inspectionStatus').value,
+                completionDate: document.getElementById('inspectionCompletionDate').value,
+                notes: document.getElementById('inspectionNotes').value.trim(),
+                createdDate: new Date().toISOString()
+            };
+
+            inspections.push(inspection);
+            saveData();
+            renderInspections();
+            updateDashboard();
+            cancelAddInspection();
+        }
+
+        function deleteInspection(id) {
+            if (!confirm('Are you sure you want to delete this inspection?')) return;
+            inspections = inspections.filter(i => i.id !== id);
+            saveData();
+            renderInspections();
+            updateDashboard();
+        }
+
+        function renderInspections() {
+            const tbody = document.getElementById('inspectionsTableBody');
+            if (inspections.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No inspections yet. Add your first inspection above.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = inspections.map(inspection => {
+                const customer = customers.find(c => c.id === inspection.customerId);
+                const customerName = customer ? customer.name : 'Unknown Customer';
+                let serviceTypeDisplay = 'Unknown';
+                if (inspection.serviceType === 'electrical') serviceTypeDisplay = 'Electrical Inspection';
+                else if (inspection.serviceType === 'compressed_air') serviceTypeDisplay = 'Compressed Air';
+                else if (inspection.serviceType === 'miscellaneous') serviceTypeDisplay = 'Miscellaneous';
+                
+                let statusClass = 'status--pending';
+                if (inspection.status === 'completed') statusClass = 'status--completed';
+                
+                return `
+                    <tr>
+                        <td><strong>${customerName}</strong></td>
+                        <td>${serviceTypeDisplay}</td>
+                        <td>${new Date(inspection.scheduledDate).toLocaleDateString()}</td>
+                        <td>${inspection.technician}</td>
+                        <td><span class="status ${statusClass}">${inspection.status.toUpperCase()}</span></td>
+                        <td>${inspection.completionDate ? new Date(inspection.completionDate).toLocaleDateString() : '-'}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn--sm btn--secondary" onclick="deleteInspection(${inspection.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterInspections() {
+            const searchTerm = document.getElementById('inspectionSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('inspectionStatusFilter').value;
+            
+            const filtered = inspections.filter(inspection => {
+                const customer = customers.find(c => c.id === inspection.customerId);
+                const customerName = customer ? customer.name.toLowerCase() : '';
+                const matchesSearch = customerName.includes(searchTerm) || 
+                                    inspection.technician.toLowerCase().includes(searchTerm);
+                const matchesStatus = !statusFilter || inspection.status === statusFilter;
+                return matchesSearch && matchesStatus;
+            });
+
+            const tbody = document.getElementById('inspectionsTableBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No inspections found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(inspection => {
+                const customer = customers.find(c => c.id === inspection.customerId);
+                const customerName = customer ? customer.name : 'Unknown Customer';
+                const serviceTypeDisplay = inspection.serviceType === 'electrical' ? 'Electrical Inspection' : 'Leak Survey';
+                
+                let statusClass = 'status--pending';
+                if (inspection.status === 'completed') statusClass = 'status--completed';
+                
+                return `
+                    <tr>
+                        <td><strong>${customerName}</strong></td>
+                        <td>${serviceTypeDisplay}</td>
+                        <td>${new Date(inspection.scheduledDate).toLocaleDateString()}</td>
+                        <td>${inspection.technician}</td>
+                        <td><span class="status ${statusClass}">${inspection.status.toUpperCase()}</span></td>
+                        <td>${inspection.completionDate ? new Date(inspection.completionDate).toLocaleDateString() : '-'}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn--sm btn--secondary" onclick="deleteInspection(${inspection.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Proposal Functions
+        function showAddProposalForm() {
+            updateCustomerDropdowns();
+            document.getElementById('addProposalForm').style.display = 'block';
+        }
+
+        function cancelAddProposal() {
+            document.getElementById('addProposalForm').style.display = 'none';
+            clearProposalForm();
+        }
+
+        function clearProposalForm() {
+            document.getElementById('proposalCustomer').value = '';
+            document.getElementById('proposalServiceType').value = '';
+            document.getElementById('proposalDateSent').value = new Date().toISOString().split('T')[0];
+            document.getElementById('proposalAmount').value = '';
+            document.getElementById('proposalStatus').value = 'sent';
+            document.getElementById('proposalDescription').value = '';
+        }
+
+        function addProposal() {
+            const customerId = parseInt(document.getElementById('proposalCustomer').value);
+            const serviceType = document.getElementById('proposalServiceType').value;
+            const dateSent = document.getElementById('proposalDateSent').value;
+
+            if (!customerId || !serviceType || !dateSent) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const proposal = {
+                id: Date.now(),
+                customerId: customerId,
+                serviceType: serviceType,
+                dateSent: dateSent,
+                amount: parseFloat(document.getElementById('proposalAmount').value) || 0,
+                status: document.getElementById('proposalStatus').value,
+                description: document.getElementById('proposalDescription').value.trim(),
+                createdDate: new Date().toISOString()
+            };
+
+            proposals.push(proposal);
+            saveData();
+            renderProposals();
+            updateDashboard();
+            cancelAddProposal();
+        }
+
+        function deleteProposal(id) {
+            if (!confirm('Are you sure you want to delete this proposal?')) return;
+            proposals = proposals.filter(p => p.id !== id);
+            saveData();
+            renderProposals();
+            updateDashboard();
+        }
+
+        function renderProposals() {
+            const tbody = document.getElementById('proposalsTableBody');
+            if (proposals.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No proposals yet. Add your first proposal above.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = proposals.map(proposal => {
+                const customer = customers.find(c => c.id === proposal.customerId);
+                const customerName = customer ? customer.name : 'Unknown Customer';
+                
+                let serviceTypeDisplay = proposal.serviceType;
+                if (proposal.serviceType === 'electrical') serviceTypeDisplay = 'Electrical Inspection';
+                else if (proposal.serviceType === 'compressed_air') serviceTypeDisplay = 'Compressed Air';
+                else if (proposal.serviceType === 'miscellaneous') serviceTypeDisplay = 'Miscellaneous';
+                else if (proposal.serviceType === 'multiple') serviceTypeDisplay = 'Multiple Services';
+                
+                let statusClass = 'status--sent';
+                if (proposal.status === 'accepted') statusClass = 'status--completed';
+                else if (proposal.status === 'pending') statusClass = 'status--pending';
+                
+                return `
+                    <tr>
+                        <td><strong>${customerName}</strong></td>
+                        <td>${serviceTypeDisplay}</td>
+                        <td>${new Date(proposal.dateSent).toLocaleDateString()}</td>
+                        <td>$${proposal.amount.toFixed(2)}</td>
+                        <td><span class="status ${statusClass}">${proposal.status.toUpperCase()}</span></td>
+                        <td class="action-buttons">
+                            <button class="btn btn--sm btn--secondary" onclick="deleteProposal(${proposal.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterProposals() {
+            const searchTerm = document.getElementById('proposalSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('proposalStatusFilter').value;
+            
+            const filtered = proposals.filter(proposal => {
+                const customer = customers.find(c => c.id === proposal.customerId);
+                const customerName = customer ? customer.name.toLowerCase() : '';
+                const matchesSearch = customerName.includes(searchTerm);
+                const matchesStatus = !statusFilter || proposal.status === statusFilter;
+                return matchesSearch && matchesStatus;
+            });
+
+            const tbody = document.getElementById('proposalsTableBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No proposals found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(proposal => {
+                const customer = customers.find(c => c.id === proposal.customerId);
+                const customerName = customer ? customer.name : 'Unknown Customer';
+                
+                let serviceTypeDisplay = proposal.serviceType;
+                if (proposal.serviceType === 'electrical') serviceTypeDisplay = 'Electrical Inspection';
+                else if (proposal.serviceType === 'leak_survey') serviceTypeDisplay = 'Leak Survey';
+                else if (proposal.serviceType === 'both') serviceTypeDisplay = 'Both Services';
+                
+                let statusClass = 'status--sent';
+                if (proposal.status === 'accepted') statusClass = 'status--completed';
+                else if (proposal.status === 'pending') statusClass = 'status--pending';
+                
+                return `
+                    <tr>
+                        <td><strong>${customerName}</strong></td>
+                        <td>${serviceTypeDisplay}</td>
+                        <td>${new Date(proposal.dateSent).toLocaleDateString()}</td>
+                        <td>$${proposal.amount.toFixed(2)}</td>
+                        <td><span class="status ${statusClass}">${proposal.status.toUpperCase()}</span></td>
+                        <td class="action-buttons">
+                            <button class="btn btn--sm btn--secondary" onclick="deleteProposal(${proposal.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Dashboard Functions
+        function updateDashboard() {
+            document.getElementById('totalCustomers').textContent = customers.length;
+            
+            const activeProposalsCount = proposals.filter(p => p.status === 'sent' || p.status === 'pending').length;
+            document.getElementById('activeProposals').textContent = activeProposalsCount;
+
+            const today = new Date();
+            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            const completedThisMonth = inspections.filter(i => 
+                i.status === 'completed' && 
+                i.completionDate && 
+                new Date(i.completionDate) >= firstDayOfMonth
+            ).length;
+            document.getElementById('completedThisMonth').textContent = completedThisMonth;
+
+            const upcomingCount = inspections.filter(i => 
+                i.status === 'scheduled' && 
+                new Date(i.scheduledDate) >= today
+            ).length;
+            document.getElementById('upcomingInspections').textContent = upcomingCount;
+
+            renderRecentActivity();
+        }
+
+        function renderRecentActivity() {
+            const allActivity = [
+                ...inspections.map(i => ({ type: 'inspection', date: i.createdDate, data: i })),
+                ...proposals.map(p => ({ type: 'proposal', date: p.createdDate, data: p })),
+                ...customers.map(c => ({ type: 'customer', date: c.createdDate, data: c }))
+            ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
+
+            const container = document.getElementById('recentActivity');
+            if (allActivity.length === 0) {
+                container.innerHTML = '<p class="empty-state">No recent activity</p>';
+                return;
+            }
+
+            container.innerHTML = allActivity.map(activity => {
+                let message = '';
+                if (activity.type === 'customer') {
+                    message = `New customer added: <strong>${activity.data.name}</strong>`;
+                } else if (activity.type === 'inspection') {
+                    const customer = customers.find(c => c.id === activity.data.customerId);
+                    message = `Inspection scheduled for <strong>${customer ? customer.name : 'Unknown'}</strong> on ${new Date(activity.data.scheduledDate).toLocaleDateString()}`;
+                } else if (activity.type === 'proposal') {
+                    const customer = customers.find(c => c.id === activity.data.customerId);
+                    message = `Proposal sent to <strong>${customer ? customer.name : 'Unknown'}</strong> - $${activity.data.amount.toFixed(2)}`;
+                }
+                
+                return `<p style="padding: var(--space-8) 0; border-bottom: 1px solid var(--color-card-border-inner);">${message} <small style="color: var(--color-text-secondary);">(${new Date(activity.date).toLocaleDateString()})</small></p>`;
+            }).join('');
+        }
+
+        // Reports Functions
+        function updateReports() {
+            const electricalCount = inspections.filter(i => i.serviceType === 'electrical' && i.status === 'completed').length;
+            const compressedAirCount = inspections.filter(i => i.serviceType === 'compressed_air' && i.status === 'completed').length;
+            const miscellaneousCount = inspections.filter(i => i.serviceType === 'miscellaneous' && i.status === 'completed').length;
+            
+            document.getElementById('reportElectrical').textContent = electricalCount;
+            document.getElementById('reportCompressedAir').textContent = compressedAirCount;
+            document.getElementById('reportMiscellaneous').textContent = miscellaneousCount;
+
+            const totalRevenue = proposals.filter(p => p.status === 'accepted').reduce((sum, p) => sum + p.amount, 0);
+            document.getElementById('reportRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+
+            const avgTime = calculateAverageTimeBetweenInspections();
+            document.getElementById('reportAvgTime').textContent = avgTime;
+
+            renderCustomerServiceBreakdown();
+            renderTechnicianPerformance();
+        }
+
+        function calculateAverageTimeBetweenInspections() {
+            const completedInspections = inspections.filter(i => i.status === 'completed' && i.completionDate)
+                .sort((a, b) => new Date(a.completionDate) - new Date(b.completionDate));
+
+            if (completedInspections.length < 2) return '-';
+
+            let totalDays = 0;
+            let count = 0;
+
+            for (let i = 1; i < completedInspections.length; i++) {
+                if (completedInspections[i].customerId === completedInspections[i-1].customerId) {
+                    const date1 = new Date(completedInspections[i-1].completionDate);
+                    const date2 = new Date(completedInspections[i].completionDate);
+                    const diffTime = Math.abs(date2 - date1);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    totalDays += diffDays;
+                    count++;
+                }
+            }
+
+            if (count === 0) return '-';
+            const avgDays = Math.round(totalDays / count);
+            return `${avgDays} days`;
+        }
+
+        function renderCustomerServiceBreakdown() {
+            const container = document.getElementById('customerServiceBreakdown');
+            const breakdown = {};
+
+            customers.forEach(customer => {
+                const key = customer.services.sort().join(', ') || 'No services';
+                breakdown[key] = (breakdown[key] || 0) + 1;
+            });
+
+            if (Object.keys(breakdown).length === 0) {
+                container.innerHTML = '<p class="empty-state">No customer data available</p>';
+                return;
+            }
+
+            container.innerHTML = Object.entries(breakdown).map(([service, count]) => {
+                const percentage = ((count / customers.length) * 100).toFixed(1);
+                let serviceLabel = service;
+                if (service === 'electrical') serviceLabel = 'Electrical Only';
+                else if (service === 'compressed_air') serviceLabel = 'Compressed Air Only';
+                else if (service === 'miscellaneous') serviceLabel = 'Miscellaneous Only';
+                else if (service.includes(',')) serviceLabel = 'Multiple Services';
+                
+                return `
+                    <div style="margin-bottom: var(--space-12);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-4);">
+                            <span>${serviceLabel}</span>
+                            <span><strong>${count}</strong> customers (${percentage}%)</span>
+                        </div>
+                        <div style="background: var(--color-secondary); height: 8px; border-radius: var(--radius-full); overflow: hidden;">
+                            <div style="background: var(--color-primary); height: 100%; width: ${percentage}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTechnicianPerformance() {
+            const container = document.getElementById('technicianPerformance');
+            const performance = {};
+
+            inspections.forEach(inspection => {
+                if (!performance[inspection.technician]) {
+                    performance[inspection.technician] = { total: 0, completed: 0 };
+                }
+                performance[inspection.technician].total++;
+                if (inspection.status === 'completed') {
+                    performance[inspection.technician].completed++;
+                }
+            });
+
+            if (Object.keys(performance).length === 0) {
+                container.innerHTML = '<p class="empty-state">No inspection data available</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Technician</th>
+                                <th>Total Inspections</th>
+                                <th>Completed</th>
+                                <th>Completion Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.entries(performance).map(([tech, data]) => {
+                                const rate = ((data.completed / data.total) * 100).toFixed(1);
+                                return `
+                                    <tr>
+                                        <td><strong>${tech}</strong></td>
+                                        <td>${data.total}</td>
+                                        <td>${data.completed}</td>
+                                        <td>${rate}%</td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Utility Functions
+        function updateCustomerDropdowns() {
+            const dropdowns = ['inspectionCustomer', 'proposalCustomer'];
+            dropdowns.forEach(dropdownId => {
+                const dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = '<option value="">Select customer</option>' + 
+                    customers.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            });
+        }
+
+        // Data persistence using JavaScript variables (no browser storage)
+        function saveData() {
+            // Data is already stored in memory
+            renderCustomers();
+            renderInspections();
+            renderProposals();
+        }
+
+        function loadData() {
+            // Load sample data if empty
+            if (customers.length === 0) {
+                loadSampleData();
+            }
+            renderCustomers();
+            renderInspections();
+            renderProposals();
+            updateCustomerDropdowns();
+        }
+
+        function loadSampleData() {
+            // Sample customers
+            customers = [
+                {
+                    id: 1,
+                    name: "Acme Manufacturing Corp",
+                    contactPerson: "John Smith",
+                    email: "john@acme.com",
+                    phone: "(555) 123-4567",
+                    address: "123 Industrial Pkwy, Suite 100",
+                    services: ["electrical", "compressed_air"],
+                    frequency: "quarterly",
+                    notes: "Primary facility, 3 buildings",
+                    createdDate: "2024-01-15T10:00:00Z"
+                },
+                {
+                    id: 2,
+                    name: "Tech Solutions Inc",
+                    contactPerson: "Sarah Johnson",
+                    email: "sarah@techsolutions.com",
+                    phone: "(555) 234-5678",
+                    address: "456 Tech Drive",
+                    services: ["electrical"],
+                    frequency: "annual",
+                    notes: "Data center facility",
+                    createdDate: "2024-02-20T14:30:00Z"
+                }
+            ];
+
+            // Sample inspections
+            inspections = [
+                {
+                    id: 101,
+                    customerId: 1,
+                    serviceType: "electrical",
+                    scheduledDate: "2024-11-15",
+                    technician: "John Smith",
+                    status: "scheduled",
+                    completionDate: "",
+                    notes: "Quarterly inspection - all buildings",
+                    createdDate: "2024-10-25T09:00:00Z"
+                },
+                {
+                    id: 102,
+                    customerId: 1,
+                    serviceType: "compressed_air",
+                    scheduledDate: "2024-08-10",
+                    technician: "Mike Davis",
+                    status: "completed",
+                    completionDate: "2024-08-10",
+                    notes: "System operating within normal parameters",
+                    createdDate: "2024-07-15T11:00:00Z"
+                }
+            ];
+
+            // Sample proposals
+            proposals = [
+                {
+                    id: 201,
+                    customerId: 2,
+                    serviceType: "electrical",
+                    dateSent: "2024-10-15",
+                    amount: 2500.00,
+                    status: "sent",
+                    description: "Annual electrical system inspection - data center",
+                    createdDate: "2024-10-15T16:00:00Z"
+                }
+            ];
+
+            saveData();
+        }
+
+        // Export Functions
+        function exportToCSV(dataType) {
+            let data, headers, filename;
+
+            if (dataType === 'customers') {
+                headers = ['ID', 'Company Name', 'Contact Person', 'Email', 'Phone', 'Services', 'Frequency', 'Notes'];
+                data = customers.map(c => [
+                    c.id,
+                    c.name,
+                    c.contactPerson,
+                    c.email,
+                    c.phone,
+                    c.services.join('; '),
+                    c.frequency,
+                    c.notes
+                ]);
+                filename = 'customers.csv';
+            } else if (dataType === 'inspections') {
+                headers = ['ID', 'Customer', 'Service Type', 'Scheduled Date', 'Technician', 'Status', 'Completion Date', 'Notes'];
+                data = inspections.map(i => {
+                    const customer = customers.find(c => c.id === i.customerId);
+                    return [
+                        i.id,
+                        customer ? customer.name : 'Unknown',
+                        i.serviceType,
+                        i.scheduledDate,
+                        i.technician,
+                        i.status,
+                        i.completionDate,
+                        i.notes
+                    ];
+                });
+                filename = 'inspections.csv';
+            } else if (dataType === 'proposals') {
+                headers = ['ID', 'Customer', 'Service Type', 'Date Sent', 'Amount', 'Status', 'Description'];
+                data = proposals.map(p => {
+                    const customer = customers.find(c => c.id === p.customerId);
+                    return [
+                        p.id,
+                        customer ? customer.name : 'Unknown',
+                        p.serviceType,
+                        p.dateSent,
+                        p.amount,
+                        p.status,
+                        p.description
+                    ];
+                });
+                filename = 'proposals.csv';
+            }
+
+            downloadCSV(headers, data, filename);
+        }
+
+        function exportAllData() {
+            const allData = {
+                customers: customers,
+                inspections: inspections,
+                proposals: proposals,
+                exportDate: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(allData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'inspection-crm-backup.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadCSV(headers, data, filename) {
+            const csvContent = [
+                headers.join(','),
+                ...data.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const statusDiv = document.getElementById('importStatus');
+            statusDiv.innerHTML = '<p style="color: var(--color-info);">Processing import...</p>';
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (!importedData.customers || !importedData.inspections || !importedData.proposals) {
+                        throw new Error('Invalid data format');
+                    }
+
+                    if (customers.length > 0 || inspections.length > 0 || proposals.length > 0) {
+                        if (!confirm('This will replace all existing data. Are you sure you want to continue?')) {
+                            statusDiv.innerHTML = '<div class="alert alert--error">Import cancelled</div>';
+                            event.target.value = '';
+                            return;
+                        }
+                    }
+
+                    customers = importedData.customers;
+                    inspections = importedData.inspections;
+                    proposals = importedData.proposals;
+
+                    saveData();
+                    updateDashboard();
+                    updateReports();
+                    updateCustomerDropdowns();
+
+                    statusDiv.innerHTML = `<div class="alert alert--success">Successfully imported ${customers.length} customers, ${inspections.length} inspections, and ${proposals.length} proposals!</div>`;
+                    
+                    event.target.value = '';
+                } catch (error) {
+                    statusDiv.innerHTML = `<div class="alert alert--error">Import failed: ${error.message}. Please ensure you're uploading a valid backup file.</div>`;
+                    event.target.value = '';
+                }
+            };
+            reader.onerror = function() {
+                statusDiv.innerHTML = '<div class="alert alert--error">Failed to read file.</div>';
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
