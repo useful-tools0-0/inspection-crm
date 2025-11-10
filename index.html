@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inspection CRM with Login and Roles</title>
+    <title>Inspection CRM with Roles, Dark Mode, Import/Export and Sample Data</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #fff; color: #000; transition: background-color 0.3s, color 0.3s; }
         h1, h2 { color: #333; }
         .hidden { display: none; }
         nav a { margin: 0 10px; cursor: pointer; }
@@ -16,11 +16,30 @@
         th { background-color: #f2f2f2; }
         .button { cursor: pointer; padding: 6px 12px; background-color: #007BFF; color: white; border: none; border-radius: 4px; }
         .button:hover { background-color: #0056b3; }
+        #darkModeToggle {
+          margin-left: 20px;
+          padding: 6px 12px;
+          background-color: #444;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        body.dark-mode {
+          background-color: #121212;
+          color: #e0e0e0;
+        }
+        body.dark-mode th {
+          background-color: #333;
+        }
+        body.dark-mode table, body.dark-mode td, body.dark-mode th {
+          border-color: #555;
+        }
     </style>
 </head>
 <body>
 
-<h1>Inspection CRM - Login</h1>
+<h1>Inspection CRM - Login <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button></h1>
 <div id="loginScreen">
     <label>Email: <input type="email" id="email" /></label><br /><br />
     <label>Password: <input type="password" id="password" /></label><br /><br />
@@ -38,7 +57,7 @@
 </div>
 
 <div id="app" class="hidden">
-    <p>Welcome, <span id="userEmail"></span> (<span id="userRole"></span>)</p>
+    <p>Welcome, <span id="userEmail"></span> (<span id="userRole"></span>) <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button></p>
     <nav>
         <a href="#" onclick="showTab('dashboard')">Dashboard</a> |
         <a href="#" onclick="showTab('customers')">Customers</a> |
@@ -51,7 +70,6 @@
 
     <div id="dashboard" class="tabcontent">
         <h2>Dashboard</h2>
-        <!-- Sample dashboard with linked metrics here -->
         <div><button onclick="showTab('customers')">Total Customers: <span id="totalCustomers">0</span></button></div>
         <div><button onclick="showTab('inspections')">Total Inspections: <span id="totalInspections">0</span></button></div>
         <div><button onclick="showTab('proposals')">Total Proposals: <span id="totalProposals">0</span></button></div>
@@ -60,7 +78,6 @@
 
     <div id="customers" class="tabcontent hidden">
         <h2>Customers</h2>
-        <!-- Customer form and list would go here -->
         <button class="button" onclick="addCustomer()">Add Customer</button>
         <table id="customerTable"><thead><tr><th>Name</th><th>City</th><th>State</th><th>Sites</th><th>Actions</th></tr></thead><tbody></tbody></table>
     </div>
@@ -85,11 +102,15 @@
 
     <div id="reports" class="tabcontent hidden">
         <h2>Reports</h2>
-        <!-- Reports content here -->
+        <p>Export Data</p>
         <button class="button" onclick="exportCustomers()">Export Customers</button>
         <button class="button" onclick="exportInspections()">Export Inspections</button>
         <button class="button" onclick="exportProposals()">Export Proposals</button>
         <button class="button" onclick="exportTechnicians()">Export Technicians</button>
+        <p>Import Data (JSON file):</p>
+        <input type="file" accept="application/json" id="importFileInput" />
+        <button class="button" onclick="importData()">Import</button>
+        <div id="importStatus" style="margin-top:10px; color: green;"></div>
     </div>
 </div>
 
@@ -100,7 +121,10 @@
         users: [
             { email: 'andrew@infraredservices.net', password: 'A1234567a', role: 'Admin' }
         ],
-        customers: [],
+        customers: [
+            { id: 1, name: 'Sample Customer 1', city: 'Charlotte', state: 'NC', sites: ['Site A', 'Site B'] },
+            { id: 2, name: 'Sample Customer 2', city: 'Raleigh', state: 'NC', sites: ['Site 1'] }
+        ],
         inspections: [],
         proposals: [],
         technicians: []
@@ -115,6 +139,10 @@
         if (data) {
             crmData = JSON.parse(data);
         }
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
     }
 
     function login() {
@@ -166,7 +194,6 @@
         const user = crmData.users.find(u => u.email.toLowerCase() === email.toLowerCase());
         const resetMsg = document.getElementById('resetMessage');
         if (user) {
-            // In real scenario, email reset link. Here, admin can reset password
             resetMsg.style.color = 'green';
             resetMsg.textContent = 'Password reset simulated: Please contact Admin to reset your password.';
         } else {
@@ -177,38 +204,103 @@
 
     function showTab(tabName) {
         const tabs = document.querySelectorAll('.tabcontent');
-        tabs.forEach(tab => {
-            tab.classList.add('hidden');
-        });
+        tabs.forEach(tab => tab.classList.add('hidden'));
         const targetTab = document.getElementById(tabName);
-        if (targetTab) {
-            targetTab.classList.remove('hidden');
-        }
+        if (targetTab) targetTab.classList.remove('hidden');
     }
 
-    // Add other functions for add/edit/delete customers, inspections, proposals, technicians...
-    // For brevity, I'll simulate loading and refreshing counts on dashboard and listing
+    // Export helpers
+    function downloadJSON(filename, data) {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function exportCustomers() {
+        downloadJSON('customers.json', crmData.customers);
+    }
+
+    function exportInspections() {
+        downloadJSON('inspections.json', crmData.inspections);
+    }
+
+    function exportProposals() {
+        downloadJSON('proposals.json', crmData.proposals);
+    }
+
+    function exportTechnicians() {
+        downloadJSON('technicians.json', crmData.technicians);
+    }
+
+    // Import JSON file
+    function importData() {
+        const input = document.getElementById('importFileInput');
+        if (input.files.length === 0) {
+            alert('Please select a JSON file to import.');
+            return;
+        }
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const jsonData = JSON.parse(e.target.result);
+                if (!jsonData) throw new Error('Empty or invalid file');
+
+                // Basic validation
+                if (typeof jsonData !== 'object') throw new Error('Invalid data format');
+
+                // Replace current data with imported data if valid
+                if (jsonData.customers && jsonData.inspections && jsonData.proposals && jsonData.technicians && jsonData.users) {
+                    crmData = jsonData;
+                    saveData();
+                    refreshAllTables();
+                    document.getElementById('importStatus').textContent = 'Import successful!';
+                } else {
+                    throw new Error('Missing required data sections');
+                }
+            } catch (err) {
+                alert('Import failed: ' + err.message);
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // Dummy implementations for adding/editing entities (expand as needed)
+    function addCustomer() {
+      alert('Add Customer functionality pending implementation');
+    }
+    function addInspection() {
+      alert('Add Inspection functionality pending implementation');
+    }
+    function addProposal() {
+      alert('Add Proposal functionality pending implementation');
+    }
+    function addTechnician() {
+      alert('Add Technician functionality pending implementation');
+    }
 
     function refreshAllTables() {
-        // Update dashboard counts
         document.getElementById('totalCustomers').textContent = crmData.customers.length;
         document.getElementById('totalInspections').textContent = crmData.inspections.length;
         document.getElementById('totalProposals').textContent = crmData.proposals.length;
         document.getElementById('totalTechnicians').textContent = crmData.technicians.length;
-
-        // For simplicity, no full table rendering here
+        // Populate the customer table
+        const customerBody = document.querySelector('#customerTable tbody');
+        customerBody.innerHTML = '';
+        crmData.customers.forEach(c => {
+            const row = `<tr><td>${c.name}</td><td>${c.city}</td><td>${c.state}</td><td>${(c.sites||[]).join(', ')}</td><td>–</td></tr>`;
+            customerBody.insertAdjacentHTML('beforeend', row);
+        });
     }
 
-    // Initialization
+    // Initialize
     loadData();
 
-    // Auto-login for initial user demo purposes
-    // Automatically login the initial user
-    // login(); // Uncomment this to auto login for demo
-
-    // Save any changes
     window.addEventListener('beforeunload', saveData);
 </script>
-
 </body>
 </html>
